@@ -1,13 +1,5 @@
 require 'pixxxer'
 
-describe 'RSpec' do
-
-  it "Runs" do
-    true.should == true
-  end
-
-end
-
 describe 'Pixxxer' do
 
   describe 'pixxxit' do
