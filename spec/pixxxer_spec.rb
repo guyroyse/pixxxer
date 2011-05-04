@@ -3,6 +3,15 @@ require 'pixxxer'
 describe 'Pixxxer' do
 
   describe 'pixxxit' do
+
+		it 'builds a string from one field' do
+			define_pixxx_template(:foobar)
+				.add_field(:foo)
+			hash = {:foo => 12345, :bar => 'abcde'}
+			pixxxited = hash.pixxxit :foobar
+			pixxxited.should == '12345'
+		end
+
   end
 
   describe 'depixxxit' do

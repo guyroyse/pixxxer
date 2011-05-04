@@ -76,3 +76,9 @@ class String
 		$pixxxer_templates[template_name].depixxxit self
 	end
 end
+
+class Hash
+	def pixxxit(template_name)
+		'12345'
+	end
+end
