@@ -1,6 +1,10 @@
+$pixxxer_templates = {}
+
 class PixxxerField
-	def initialize
+	def initialize(template)
+		@template = template
 		@position = 0
+		@precision = 0
 	end
 	def with_width(width)
 		@width = width
@@ -17,6 +21,17 @@ class PixxxerField
 		@type = Integer
 		self
 	end
+	def as_float
+		@type = Float
+		self
+	end
+	def with_precision(precision)
+		@precision = precision
+		self
+	end
+	def and
+		@template
+	end
 	def depixxxit(string)
 		field = extract_field string
 		coerce_field field
@@ -27,26 +42,37 @@ class PixxxerField
 	end
 	def coerce_field(field)
 		return field.to_i if @type == Integer
+		return adjust_float(field.to_f) if @type == Float
 		field
+	end
+	def adjust_float(field)
+		field / 10 ** @precision
 	end
 end
 
 class PixxxerTemplate
+	def initialize
+		@fields = {}
+	end
 	def add_field(field_name)
-		@field = PixxxerField.new
-		@field
+		@fields[field_name] = PixxxerField.new(self)
+		@fields[field_name]
 	end
 	def depixxxit(string)
-		{:foo => @field.depixxxit(string) }
+		record = {}
+		@fields.each do |field_name, field|
+			record[field_name] = field.depixxxit string
+		end
+		record
 	end
 end
 
 def define_pixxx_template(template_name)
-	$pixxxer_template = PixxxerTemplate.new
+	$pixxxer_templates[template_name] = PixxxerTemplate.new
 end
 
 class String
 	def depixxxit(template_name)
-		$pixxxer_template.depixxxit self
+		$pixxxer_templates[template_name].depixxxit self
 	end
 end
