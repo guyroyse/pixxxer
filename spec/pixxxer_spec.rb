@@ -4,14 +4,52 @@ describe 'Pixxxer' do
 
   describe 'pixxxit' do
 
+		before(:each) do
+			@sample = {:foo => 'abcde', :bar => 12345}
+		end
+
 		it 'builds a string from one field' do
 			define_pixxx_template(:foobar)
 				.add_field(:foo)
-			hash = {:foo => 12345, :bar => 'abcde'}
-			pixxxited = hash.pixxxit :foobar
-			pixxxited.should == '12345'
+			pixxxited = @sample.pixxxit :foobar
+			pixxxited.should == 'abcde'
 		end
 
+		it 'builds a string with a width' do
+			define_pixxx_template(:foobar)
+				.add_field(:foo).with_width(2)
+			pixxxited = @sample.pixxxit :foobar
+			pixxxited.should == 'ab'
+		end
+
+		it 'builds a string with a position' do
+			define_pixxx_template(:foobar)
+				.add_field(:foo).at_position(5)
+			pixxxited = @sample.pixxxit :foobar
+			pixxxited.should == '     abcde'
+		end
+
+    it 'builds a string with a width and a position' do
+			define_pixxx_template(:foobar)
+				.add_field(:foo).with_width(2).at_position(5)
+			pixxxited = @sample.pixxxit :foobar
+			pixxxited.should == '     ab'
+		end
+
+		it 'builds a string coerced from an integer' do
+			define_pixxx_template(:foobar)
+				.add_field(:bar).as_integer
+			pixxxited = @sample.pixxxit :foobar
+			pixxxited.should == '12345'
+		end
+		
+		it 'builds a string coerced from an integer with a width that is greater than the length of the integer' do
+			define_pixxx_template(:foobar)
+				.add_field(:bar).as_integer.with_width(10)
+			pixxxited = @sample.pixxxit :foobar
+			pixxxited.should == '0000012345'
+
+		end
   end
 
   describe 'depixxxit' do

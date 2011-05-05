@@ -1,8 +1,9 @@
 $pixxxer_templates = {}
 
 class PixxxerField
-	def initialize(template)
+	def initialize(field_name, template)
 		@template = template
+		@name = field_name
 		@position = 0
 		@precision = 0
 	end
@@ -36,8 +37,17 @@ class PixxxerField
 		field = extract_field string
 		coerce_field field
 	end
+	def pixxxit(hash)
+		string = hash[@name].to_s
+		string = string[0, @width] unless @width.nil?
+		string.rjust @position + string.length, padding_char
+	end
+	def padding_char
+		return '0' if @type == Integer
+		' '
+	end
 	def extract_field(string)
-		return string[@position..string.length-1] if @width.nil?
+		return string[@position...string.length] if @width.nil?
 		string[@position, @width]
 	end
 	def coerce_field(field)
@@ -55,7 +65,7 @@ class PixxxerTemplate
 		@fields = {}
 	end
 	def add_field(field_name)
-		@fields[field_name] = PixxxerField.new(self)
+		@fields[field_name] = PixxxerField.new(field_name, self)
 		@fields[field_name]
 	end
 	def depixxxit(string)
@@ -64,6 +74,13 @@ class PixxxerTemplate
 			record[field_name] = field.depixxxit string
 		end
 		record
+	end
+	def pixxxit(hash)
+		string = ''
+		@fields.each do |field_name, field|
+			string = field.pixxxit hash
+		end
+		string
 	end
 end
 
@@ -79,6 +96,6 @@ end
 
 class Hash
 	def pixxxit(template_name)
-		'12345'
+		$pixxxer_templates[template_name].pixxxit self
 	end
 end
