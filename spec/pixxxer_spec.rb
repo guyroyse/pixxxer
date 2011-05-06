@@ -11,45 +11,70 @@ describe 'Pixxxer' do
 		it 'builds a string from one field' do
 			define_pixxx_template(:foobar)
 				.add_field(:foo)
-			pixxxited = @sample.pixxxit :foobar
-			pixxxited.should == 'abcde'
+			@sample.pixxxit(:foobar).should == 'abcde'
 		end
 
-		it 'builds a string with a width' do
+		it 'builds a string with a width that is too small' do
 			define_pixxx_template(:foobar)
 				.add_field(:foo).with_width(2)
-			pixxxited = @sample.pixxxit :foobar
-			pixxxited.should == 'ab'
+			@sample.pixxxit(:foobar).should == 'ab'
+		end
+
+		it 'builds a string with a width that is too big' do
+			define_pixxx_template(:foobar)
+				.add_field(:foo).with_width(10)
+			@sample.pixxxit(:foobar).should == 'abcde     '	
+		end
+
+		it 'builds a string with a width that is just right' do
+			define_pixxx_template(:foobar)
+				.add_field(:foo).with_width(5)
+			@sample.pixxxit(:foobar).should == 'abcde'	
 		end
 
 		it 'builds a string with a position' do
 			define_pixxx_template(:foobar)
 				.add_field(:foo).at_position(5)
-			pixxxited = @sample.pixxxit :foobar
-			pixxxited.should == '     abcde'
+			@sample.pixxxit(:foobar).should == '     abcde'
 		end
 
     it 'builds a string with a width and a position' do
 			define_pixxx_template(:foobar)
 				.add_field(:foo).with_width(2).at_position(5)
-			pixxxited = @sample.pixxxit :foobar
-			pixxxited.should == '     ab'
+			@sample.pixxxit(:foobar).should == '     ab'
 		end
 
 		it 'builds a string coerced from an integer' do
 			define_pixxx_template(:foobar)
 				.add_field(:bar).as_integer
-			pixxxited = @sample.pixxxit :foobar
-			pixxxited.should == '12345'
+			@sample.pixxxit(:foobar).should == '12345'
 		end
 		
-		it 'builds a string coerced from an integer with a width that is greater than the length of the integer' do
+		it 'builds a string coerced from an integer with a width that is too big' do
 			define_pixxx_template(:foobar)
 				.add_field(:bar).as_integer.with_width(10)
-			pixxxited = @sample.pixxxit :foobar
-			pixxxited.should == '0000012345'
-
+			@sample.pixxxit(:foobar).should == '0000012345'
 		end
+
+		it 'builds a string coerced from an integer with a width that is too small' do
+			define_pixxx_template(:foobar)
+				.add_field(:bar).as_integer.with_width(2)
+			@sample.pixxxit(:foobar).should == '45'
+		end
+
+		it 'builds a string coerced from an integer with a width that is just right' do
+			define_pixxx_template(:foobar)
+				.add_field(:bar).as_integer.with_width(5)
+			@sample.pixxxit(:foobar).should == '12345'
+		end
+
+		it 'builds a string from multiple fields' do
+			define_pixxx_template(:foobar)
+				.add_field(:foo).as_string.at_position(0).with_width(5).and
+				.add_field(:bar).as_integer.at_position(5).with_width(5)
+			@sample.pixxxit(:foobar).should == 'abcde12345'
+		end
+
   end
 
   describe 'depixxxit' do

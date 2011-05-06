@@ -39,12 +39,27 @@ class PixxxerField
 	end
 	def pixxxit(hash)
 		string = hash[@name].to_s
-		string = string[0, @width] unless @width.nil?
-		string.rjust @position + string.length, padding_char
+		string = build_field string
+		string.rjust @position + string.length, ' '
 	end
-	def padding_char
-		return '0' if @type == Integer
-		' '
+	def build_field(string)
+		pad_string shorten_string(string)
+	end
+	def shorten_string(string)
+		if @type == Integer
+			return string[string.length - @width, @width] unless @width.nil?
+		else
+			return string[0, @width] unless @width.nil?
+		end
+		string
+	end
+	def pad_string(string)
+		if @type == Integer
+			return string.rjust(@width, '0') unless @width.nil?
+		else
+			return string.ljust(@width, ' ') unless @width.nil?
+		end
+		string
 	end
 	def extract_field(string)
 		return string[@position...string.length] if @width.nil?
