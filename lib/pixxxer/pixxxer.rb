@@ -37,18 +37,23 @@ class PixxxerField
 		field = extract_field string
 		coerce_field field
 	end
-	def pixxxit(hash, string)
-		field_string = hash[@name].to_s
-		field_string = build_field field_string
-		string = widen_string string
-		string[@position, field_string.length] = field_string
-		return string
+	def pixxxit(hash, record)
+		field = fetch_field hash
+		add_to_record record, field
 	end
-	def widen_string(string)
-		string.ljust @position
+	def add_to_record(record, field)
+		record = widen_record record
+		inject_field record, field
 	end
-	def build_field(string)
-		pad_string shorten_string(string)
+	def widen_record(record)
+		record.ljust @position
+	end
+	def inject_field(record, field)
+		record[@position, field.length] = field
+		record
+	end
+	def fetch_field(hash)
+		pad_string shorten_string(hash[@name].to_s)
 	end
 	def shorten_string(string)
 		if @type == Integer
