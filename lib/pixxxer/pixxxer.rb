@@ -41,6 +41,28 @@ class PixxxerFieldPixxxitter
 
 end
 
+class PixxxerFieldDepixxxitter
+	def initialize(field)
+		@field = field
+	end
+	def depixxxit(record)
+		field = extract_field record
+		coerce_field field
+	end
+	def extract_field(record)
+		return record[@field.position...record.length] if @field.width.nil?
+		record[@field.position, @field.width]
+	end
+	def coerce_field(field)
+		return field.to_i if @field.type == Integer
+		return adjust_float(field.to_f) if @field.type == Float
+		field
+	end
+	def adjust_float(field)
+		field / 10 ** @field.precision
+	end
+end
+
 class PixxxerField
 	attr_reader :width, :name, :position, :type, :precision
 	def initialize(field_name, template)
@@ -49,6 +71,7 @@ class PixxxerField
 		@position = 0
 		@precision = 0
 		@pixxxitter = PixxxerFieldPixxxitter.new self
+		@depixxxitter = PixxxerFieldDepixxxitter.new self
 	end
 	def with_width(width)
 		@width = width
@@ -79,21 +102,8 @@ class PixxxerField
 	def pixxxit(hash, record)
 		@pixxxitter.pixxxit hash, record
 	end
-	def depixxxit(string)
-		field = extract_field string
-		coerce_field field
-	end
-	def extract_field(string)
-		return string[@position...string.length] if @width.nil?
-		string[@position, @width]
-	end
-	def coerce_field(field)
-		return field.to_i if @type == Integer
-		return adjust_float(field.to_f) if @type == Float
-		field
-	end
-	def adjust_float(field)
-		field / 10 ** @precision
+	def depixxxit(record)
+		@depixxxitter.depixxxit record
 	end
 end
 
