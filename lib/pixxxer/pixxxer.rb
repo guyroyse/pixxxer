@@ -37,10 +37,15 @@ class PixxxerField
 		field = extract_field string
 		coerce_field field
 	end
-	def pixxxit(hash)
-		string = hash[@name].to_s
-		string = build_field string
-		string.rjust @position + string.length, ' '
+	def pixxxit(hash, string)
+		field_string = hash[@name].to_s
+		field_string = build_field field_string
+		string = widen_string string
+		string[@position, field_string.length] = field_string
+		return string
+	end
+	def widen_string(string)
+		string.ljust @position
 	end
 	def build_field(string)
 		pad_string shorten_string(string)
@@ -93,7 +98,7 @@ class PixxxerTemplate
 	def pixxxit(hash)
 		string = ''
 		@fields.each do |field_name, field|
-			string = field.pixxxit hash
+			string = field.pixxxit hash, string
 		end
 		string
 	end
