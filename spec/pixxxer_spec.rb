@@ -107,8 +107,9 @@ describe 'Pixxxer' do
 		it 'builds a string from multiple fields' do
 			define_pixxx_template(:foobar)
 				.add_field(:foo).as_string.at_position(0).with_width(5).and
-				.add_field(:bar).as_integer.at_position(5).with_width(5)
-			@sample.pixxxit(:foobar).should == 'abcde12345'
+				.add_field(:bar).as_integer.at_position(5).with_width(5).and
+				.add_field(:baz).as_float.at_position(10).with_width(5).with_precision(2)
+			@sample.pixxxit(:foobar).should == 'abcde1234512345'
 		end
 
   end
