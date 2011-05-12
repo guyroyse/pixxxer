@@ -43,9 +43,10 @@ To use the template to build a record:
 	s.should == 'Dune      Herbert   0012001295'
 
 Note:
- * Most things default to zero
- * Fields default to strings
- * at_position is zero-based
+
+Most things default to zero
+Fields default to strings
+at_position is zero-based
 
 Copyright
 ---------
