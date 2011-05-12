@@ -92,6 +92,18 @@ describe 'Pixxxer' do
 			@sample.pixxxit(:foobar).should == '0000123450'
 		end
 
+		it 'builds a string coerced from a float with a precision that is too small' do
+			define_pixxx_template(:foobar)
+				.add_field(:baz).as_float.with_width(10).with_precision(1)
+			@sample.pixxxit(:foobar).should == '0000001234'
+		end
+
+		it 'builds a string coerced from a float and defaults the precision to zero' do
+			define_pixxx_template(:foobar)
+				.add_field(:baz).as_float.with_width(5)
+			@sample.pixxxit(:foobar).should == '00123'
+		end
+
 		it 'builds a string from multiple fields' do
 			define_pixxx_template(:foobar)
 				.add_field(:foo).as_string.at_position(0).with_width(5).and

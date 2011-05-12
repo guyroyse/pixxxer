@@ -19,12 +19,11 @@ class FieldPixxxitter
 	end
 	def fetch_field(hash)
 		field = coerce_field hash[@field.name].to_s
-		field = shorten_field field
-		pad_field field
+		field = pad_field field
+		shorten_field field
 	end
 	def coerce_field(field)
 		field = (field.to_f * 10 ** @field.precision).to_i if @field.type == Float
-		puts field if @field.type == Float
 		field.to_s
 	end
 	def shorten_field(field)
