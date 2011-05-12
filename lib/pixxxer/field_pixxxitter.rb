@@ -18,25 +18,29 @@ class FieldPixxxitter
 		record
 	end
 	def fetch_field(hash)
-		pad_string shorten_string(hash[@field.name].to_s)
+		field = coerce_field hash[@field.name].to_s
+		field = shorten_field field
+		pad_field field
 	end
-	def shorten_string(string)
-		if @field.type == Integer
-			return string[string.length - @field.width, @field.width] unless @field.width.nil?
+	def coerce_field(field)
+		field = (field.to_f * 10 ** @field.precision).to_i if @field.type == Float
+		puts field if @field.type == Float
+		field.to_s
+	end
+	def shorten_field(field)
+		if @field.type == Integer || @field.type == Float
+			return field[field.length - @field.width, @field.width] unless @field.width.nil?
 		else
-			return string[0, @field.width] unless @field.width.nil?
+			return field[0, @field.width] unless @field.width.nil?
 		end
-		string
+		field
 	end
-	def pad_string(string)
-		if @field.type == Integer
-			return string.rjust(@field.width, '0') unless @field.width.nil?
+	def pad_field(field)
+		if @field.type == Integer || @field.type == Float
+			return field.rjust(@field.width, '0') unless @field.width.nil?
 		else
-			return string.ljust(@field.width, ' ') unless @field.width.nil?
+			return field.ljust(@field.width, ' ') unless @field.width.nil?
 		end
-		string
+		field
 	end
-
 end
-
-

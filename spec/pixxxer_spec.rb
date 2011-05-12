@@ -5,7 +5,7 @@ describe 'Pixxxer' do
   describe 'pixxxit' do
 
 		before(:each) do
-			@sample = {:foo => 'abcde', :bar => 12345}
+			@sample = {:foo => 'abcde', :bar => 12345, :baz => 123.45}
 		end
 
 		it 'builds a string from one field' do
@@ -66,6 +66,30 @@ describe 'Pixxxer' do
 			define_pixxx_template(:foobar)
 				.add_field(:bar).as_integer.with_width(5)
 			@sample.pixxxit(:foobar).should == '12345'
+		end
+
+		it 'builds a string coerced from a float with a width that is too big' do
+			define_pixxx_template(:foobar)
+				.add_field(:baz).as_float.with_width(10).with_precision(2)
+			@sample.pixxxit(:foobar).should == '0000012345'
+		end
+
+		it 'builds a string coerced from a float with a width that is too small' do
+			define_pixxx_template(:foobar)
+				.add_field(:baz).as_float.with_width(3).with_precision(2)
+			@sample.pixxxit(:foobar).should == '345'
+		end
+
+		it 'builds a string coerced from a float with a width that is just right' do
+			define_pixxx_template(:foobar)
+				.add_field(:baz).as_float.with_width(5).with_precision(2)
+			@sample.pixxxit(:foobar).should == '12345'
+		end
+
+		it 'builds a string coerced from a float with a precision that is too big' do
+			define_pixxx_template(:foobar)
+				.add_field(:baz).as_float.with_width(10).with_precision(3)
+			@sample.pixxxit(:foobar).should == '0000123450'
 		end
 
 		it 'builds a string from multiple fields' do
