@@ -2,7 +2,7 @@ require 'pixxxer'
 
 describe 'Pixxxer' do
 
-  describe 'pixxxit' do
+  describe 'String.pixxxit' do
 
 		before(:each) do
 			@sample = {:foo => 'abcde', :bar => 12345, :baz => 123.45}
@@ -114,7 +114,7 @@ describe 'Pixxxer' do
 
   end
 
-  describe 'depixxxit' do
+  describe 'Hash.depixxxit' do
 
 		before(:each) do
 			@sample = '12345abcde'
