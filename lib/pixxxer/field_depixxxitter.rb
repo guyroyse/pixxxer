@@ -1,0 +1,22 @@
+class FieldDepixxxitter
+	def initialize(field)
+		@field = field
+	end
+	def depixxxit(record)
+		field = extract_field record
+		coerce_field field
+	end
+	def extract_field(record)
+		return record[@field.position...record.length] if @field.width.nil?
+		record[@field.position, @field.width]
+	end
+	def coerce_field(field)
+		return field.to_i if @field.type == Integer
+		return adjust_float(field.to_f) if @field.type == Float
+		field
+	end
+	def adjust_float(field)
+		field / 10 ** @field.precision
+	end
+end
+
