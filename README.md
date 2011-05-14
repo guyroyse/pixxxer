@@ -3,7 +3,7 @@ Pixxxer
 
 Installation
 ------------
-Installation is super easy.  Gems works like that.
+Installation is super easy.  Gems work like that.
 
 	gem install pixxxer
 
@@ -31,7 +31,7 @@ You can define the follwing template:
 
 To use the template to parse:
 
-	record = 'Dune      Herbert   0012001295'.pixxxit(:book)
+	record = 'Dune      Herbert   0012001295'.depixxxit(:book)
 	record[:title].should == 'Dune      '
 	record[:author].should == 'Herbert    '
 	record[:quantity].should == 120
@@ -39,14 +39,11 @@ To use the template to parse:
 
 To use the template to build a record:
 
-	s = record.depixxxit(:book)
+	s = record.pixxxit(:book)
 	s.should == 'Dune      Herbert   0012001295'
 
-Note:
-
-Most things default to zero
-Fields default to strings
-at_position is zero-based
+Notes:
+Most things default to zero. Fields default to strings. at_position is zero-based
 
 Copyright
 ---------
