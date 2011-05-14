@@ -30,6 +30,9 @@ class PixxxerField
 		@type = Float
 		self
 	end
+	def as_boolean
+		@type = "Boolean"
+	end
 	def with_precision(precision)
 		@precision = precision
 		self

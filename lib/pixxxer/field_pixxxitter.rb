@@ -23,7 +23,11 @@ class FieldPixxxitter
 		shorten_field field
 	end
 	def coerce_field(field)
-		field = (field.to_f * 10 ** @field.precision).to_i if @field.type == Float
+		if @field.type == Float
+			field = (field.to_f * 10 ** @field.precision).to_i
+		elsif @field.type == "Boolean"
+			field = field == 'true' ? 'Y' : 'N'
+		end
 		field.to_s
 	end
 	def shorten_field(field)

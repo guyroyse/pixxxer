@@ -5,7 +5,13 @@ describe 'Pixxxer' do
   describe 'String.pixxxit' do
 
 		before(:each) do
-			@sample = {:foo => 'abcde', :bar => 12345, :baz => 123.45}
+			@sample = {
+				:foo => 'abcde', 
+				:bar => 12345, 
+				:baz => 123.45,
+				:true => true,
+				:false => false
+			}
 		end
 
 		it 'builds a string from one field' do
@@ -102,6 +108,18 @@ describe 'Pixxxer' do
 			define_pixxx_template(:foobar)
 				.add_field(:baz).as_float.with_width(5)
 			@sample.pixxxit(:foobar).should == '00123'
+		end
+
+		it 'builds a string coerced from a Boolean with a true value' do
+			define_pixxx_template(:foobar)
+				.add_field(:true).as_boolean
+			@sample.pixxxit(:foobar).should == 'Y'
+		end
+
+		it 'builds a string coerced from a Boolean with a false value' do
+			define_pixxx_template(:foobar)
+				.add_field(:false).as_boolean
+			@sample.pixxxit(:foobar).should == 'N'
 		end
 
 		it 'builds a string from multiple fields' do
