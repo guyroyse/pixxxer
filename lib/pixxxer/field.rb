@@ -2,12 +2,13 @@ require 'pixxxer/field_pixxxitter'
 require 'pixxxer/field_depixxxitter'
 
 class PixxxerField
-	attr_reader :width, :name, :position, :type, :precision
+	attr_reader :width, :name, :position, :type, :precision, :true_value
 	def initialize(field_name, template)
 		@template = template
 		@name = field_name
 		@position = 0
 		@precision = 0
+		@true_value = 'Y'
 		@pixxxitter = FieldPixxxitter.new self
 		@depixxxitter = FieldDepixxxitter.new self
 	end
@@ -32,9 +33,14 @@ class PixxxerField
 	end
 	def as_boolean
 		@type = "Boolean"
+		self
 	end
 	def with_precision(precision)
 		@precision = precision
+		self
+	end
+	def true_is(value)
+		@true_value = value
 		self
 	end
 	def and
