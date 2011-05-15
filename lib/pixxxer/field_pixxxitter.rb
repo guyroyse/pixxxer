@@ -26,7 +26,7 @@ class FieldPixxxitter
 		if @field.type == Float
 			field = (field.to_f * 10 ** @field.precision).to_i
 		elsif @field.type == "Boolean"
-			field = field == 'true' ? @field.true_value : 'N'
+			field = field == 'true' ? @field.true_value : @field.false_value
 		end
 		field.to_s
 	end

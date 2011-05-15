@@ -126,6 +126,24 @@ describe 'String.pixxxit' do
 		@sample.pixxxit(:foobar).should == 'T'
 	end
 
+	it 'builds a string coerced from a Boolean with a false value and a specified false string' do
+		define_pixxx_template(:foobar)
+			.add_field(:false).as_boolean.false_is('F')
+		@sample.pixxxit(:foobar).should == 'F'
+	end
+
+	it 'builds a string coerced from a Boolen with a true value and a true string specified at the template level' do
+		define_pixxx_template(:foobar).true_is('T')
+			.add_field(:true).as_boolean
+		@sample.pixxxit(:foobar).should == 'T'
+	end
+
+	it 'builds a string coerced from a Boolen with a false value and a false string specified at the template level' do
+		define_pixxx_template(:foobar).false_is('F')
+			.add_field(:false).as_boolean
+		@sample.pixxxit(:foobar).should == 'F'
+	end
+
 	it 'builds a string from multiple fields' do
 		define_pixxx_template(:foobar)
 			.add_field(:string).as_string.at_position(0).with_width(5).and
