@@ -4,14 +4,10 @@ describe 'Integer' do
 	
 	describe 'String.depixxxit' do
 
-		before(:each) do
-			@sample = '12345'
-		end
-
 		it 'parses a field and coerces it to a integer' do
 			define_pixxx_template(:foobar)
 				.add_field(:foo).as_integer.at_position(0).with_width(5)
-			depixxxed = @sample.depixxxit :foobar
+			depixxxed = '12345'.depixxxit :foobar
 			depixxxed[:foo].should be_a_kind_of(Integer)
 		end
 
