@@ -2,7 +2,7 @@ require 'pixxxer'
 
 describe 'Integer' do
 	
-	describe 'Hash.depixxxit' do
+	describe 'String.depixxxit' do
 
 		before(:each) do
 			@sample = '12345'
@@ -17,7 +17,7 @@ describe 'Integer' do
 
 	end
 
-	describe 'String.pixxxit' do
+	describe 'Hash.pixxxit' do
 
 		before(:each) do
 			@sample = {

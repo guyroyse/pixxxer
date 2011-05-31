@@ -1,6 +1,6 @@
 require 'pixxxer'
 
-describe 'Hash.depixxxit' do
+describe 'String.depixxxit' do
 
 	before(:each) do
 		@sample = '12345abcde'
@@ -41,25 +41,6 @@ describe 'Hash.depixxxit' do
 				.add_field(:foo).as_string.at_position(5).with_width(5)
 			depixxxed = @sample.depixxxit :foobar
 			depixxxed[:foo].should be_a_kind_of(String)
-		end
-
-	end
-
-	describe 'Float' do
-
-		it 'parses a field and coerces it to a float' do
-			define_pixxx_template(:foobar)
-				.add_field(:foo).as_float.at_position(0).with_width(5)
-			depixxxed = @sample.depixxxit :foobar
-			depixxxed[:foo].should be_a_kind_of(Float)
-		end
-
-		it 'parses a field and coerces it to a float with decimal places' do
-			define_pixxx_template(:foobar)
-				.add_field(:foo).as_float.with_precision(2).at_position(0).with_width(5)
-			depixxxed = @sample.depixxxit :foobar
-			depixxxed[:foo].should be_a_kind_of(Float)
-			depixxxed[:foo].should == 123.45
 		end
 
 	end
