@@ -60,34 +60,6 @@ describe 'String.pixxxit' do
 
 	end
 
-	describe "Integer" do
-
-		it 'builds a string coerced from an integer' do
-			define_pixxx_template(:foobar)
-				.add_field(:integer).as_integer
-			@sample.pixxxit(:foobar).should == '12345'
-		end
-		
-		it 'builds a string coerced from an integer with a width that is too big' do
-			define_pixxx_template(:foobar)
-				.add_field(:integer).as_integer.with_width(10)
-			@sample.pixxxit(:foobar).should == '0000012345'
-		end
-
-		it 'builds a string coerced from an integer with a width that is too small' do
-			define_pixxx_template(:foobar)
-				.add_field(:integer).as_integer.with_width(2)
-			@sample.pixxxit(:foobar).should == '45'
-		end
-
-		it 'builds a string coerced from an integer with a width that is just right' do
-			define_pixxx_template(:foobar)
-				.add_field(:integer).as_integer.with_width(5)
-			@sample.pixxxit(:foobar).should == '12345'
-		end
-
-	end
-
 	describe "Float" do
 
 		it 'builds a string coerced from a float with a width that is too big' do
@@ -141,6 +113,8 @@ describe 'String.pixxxit' do
 				.add_field(:false).as_boolean
 			@sample.pixxxit(:foobar).should == 'N'
 		end
+
+		# what about nil or invalid values
 
 		it 'builds a string coerced from a Boolean with a true value and a specified true string' do
 			define_pixxx_template(:foobar)

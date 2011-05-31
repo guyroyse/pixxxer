@@ -12,8 +12,12 @@ class FieldDepixxxitter
 	end
 	def coerce_field(field)
 		return field.to_i if @field.type == Integer
+		return coerce_field_to_boolean(field) if @field.type == 'Boolean'
 		return adjust_float(field.to_f) if @field.type == Float
 		field
+	end
+	def coerce_field_to_boolean(field)
+		field == @field.true_value
 	end
 	def adjust_float(field)
 		field / 10 ** @field.precision
