@@ -1,6 +1,8 @@
 require 'pixxxer'
 
 describe 'Integer' do
+
+	# add tests for invalid values
 	
 	describe 'String.depixxxit' do
 
