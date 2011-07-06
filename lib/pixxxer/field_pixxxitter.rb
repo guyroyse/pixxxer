@@ -1,3 +1,4 @@
+require 'iconv'
 class FieldPixxxitter
 	def initialize(field)
 		@field = field

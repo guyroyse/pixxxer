@@ -1,3 +1,4 @@
+require 'iconv'
 class FieldDepixxxitter
 	def initialize(field)
 		@field = field
