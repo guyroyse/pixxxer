@@ -11,16 +11,34 @@ class FieldDepixxxitter
 		record[@field.position, @field.width]
 	end
 	def coerce_field(field)
-		return field.to_i if @field.type == Integer
-		return coerce_field_to_boolean(field) if @field.type == 'Boolean'
-		return adjust_float(field.to_f) if @field.type == Float
-		field
+		case @field.type
+    when :integer
+      field.to_i
+    when :boolean
+      coerce_field_to_boolean(field)
+    when :float
+      adjust_float(field.to_f)
+    when :comp3
+      comp3_to_i(field)
+    when :ebcdic_char
+      ebcdic_to_ascii(field)
+    else
+      field
+    end
 	end
 	def coerce_field_to_boolean(field)
 		field == @field.true_value
+	end
+	def comp3_to_i(field)
+    u = field.unpack("H*").first
+    n = u.chop.to_i
+    u[-1,1] == 'd' ? -n : n
+	end
+	def ebcdic_to_ascii(field)
+    @ea_iconv ||= Iconv.new('EBCDIC-US', 'ASCII')
+    @ea_iconv.iconv(field)
 	end
 	def adjust_float(field)
 		field / 10 ** @field.precision
 	end
 end
-

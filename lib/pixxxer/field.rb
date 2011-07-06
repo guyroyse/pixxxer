@@ -21,21 +21,10 @@ class PixxxerField
 		@position = position
 		self
 	end
-	def as_string
-		self
-	end
-	def as_integer
-		@type = Integer
-		self
-	end
-	def as_float
-		@type = Float
-		self
-	end
-	def as_boolean
-		@type = "Boolean"
-		self
-	end
+  def as(type)
+    @type = type
+    self
+  end
 	def with_precision(precision)
 		@precision = precision
 		self

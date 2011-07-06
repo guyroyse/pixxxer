@@ -23,27 +23,50 @@ class FieldPixxxitter
 		shorten_field field
 	end
 	def coerce_field(field)
-		if @field.type == Float
-			field = (field.to_f * 10 ** @field.precision).to_i
-		elsif @field.type == "Boolean"
-			field = field == 'true' ? @field.true_value : @field.false_value
+    c = case @field.type
+		when :float
+			(field.to_f * 10 ** @field.precision).to_i
+		when :boolean
+			field == 'true' ? @field.true_value : @field.false_value
+		when :comp3
+			i_to_comp3(field)
+		when :ebcdic_char
+			ascii_to_ebcdic(field)
+    else
+      field
 		end
-		field.to_s
+    c.to_s
 	end
 	def shorten_field(field)
-		if @field.type == Integer || @field.type == Float
-			return field[field.length - @field.width, @field.width] unless @field.width.nil?
+    return field if @field.width.nil?
+		case @field.type
+    when :integer, :float
+			field[field.length - @field.width, @field.width]
 		else
-			return field[0, @field.width] unless @field.width.nil?
+			field[0, @field.width]
 		end
-		field
 	end
 	def pad_field(field)
-		if @field.type == Integer || @field.type == Float
-			return field.rjust(@field.width, '0') unless @field.width.nil?
+    return field if @field.width.nil?
+		case @field.type
+    when :integer, :float
+			field.rjust(@field.width, '0')
+		when :comp3
+			field.rjust(@field.width, "\xf0")
+		when :ebcdic_char
+			field.rjust(@field.width, "\x40")
 		else
-			return field.ljust(@field.width, ' ') unless @field.width.nil?
+			field.ljust(@field.width, ' ')
 		end
-		field
+	end
+	def i_to_comp3(field)
+    n = field.to_i
+    s = n.abs.to_s + (n < 0 ? "d" : "c")
+    s = "0" + s if s.size.odd?
+    [s].pack("H*")
+	end
+	def ascii_to_ebcdic(field)
+    @ae_iconv ||= Iconv.new('ASCII', 'EBCDIC-US')
+    @ae_iconv.iconv(field)
 	end
 end

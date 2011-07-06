@@ -24,10 +24,10 @@ Assuming a record like this:
 You can define the follwing template:
 
 	define_pixxx_template(:book)
-		.add_field(:title).as_string.at_position(0).with_width(10).and
-		.add_field(:author).as_string.at_position(10).with_width(10).and
-		.add_field(:quantity).as_integer.at_position(20).with_width(5).and
-		.add_field(:price).as_float.at_position(25).with_width(5).with_precision(2)
+		.add_field(:title).as(:string).at_position(0).with_width(10).and
+		.add_field(:author).as(:string).at_position(10).with_width(10).and
+		.add_field(:quantity).as(:integer).at_position(20).with_width(5).and
+		.add_field(:price).as(:float).at_position(25).with_width(5).with_precision(2)
 
 To use the template to parse:
 
