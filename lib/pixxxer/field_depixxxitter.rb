@@ -15,16 +15,23 @@ class FieldDepixxxitter
 	end
 end
 
-class IntegerFieldDepixxxitter < FieldDepixxxitter
+class NumberFieldDepixxxitter < FieldDepixxxitter
+	def is_numeric(field)
+		field.match /^?\d+$/	
+	end
+end
+
+class IntegerFieldDepixxxitter < NumberFieldDepixxxitter
 	def coerce_field(field)
-		return field.to_i if field.match /^?\d+$/ 
+		return field.to_i if is_numeric(field) 
 		nil
 	end
 end
 
-class FloatFieldDepixxxitter < FieldDepixxxitter
+class FloatFieldDepixxxitter < NumberFieldDepixxxitter
 	def coerce_field(field)
-		adjust_float(field.to_f)
+		return adjust_float(field.to_f) if is_numeric(field)
+		nil
 	end
 	def adjust_float(field)
 		field / 10 ** @field.precision

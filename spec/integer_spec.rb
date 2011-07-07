@@ -2,8 +2,6 @@ require 'pixxxer'
 
 describe 'Integer' do
 
-	# add tests for invalid values
-	
 	describe 'String.depixxxit' do
 
 		before(:each) do
@@ -16,7 +14,7 @@ describe 'Integer' do
 			depixxxed[:foo].should == 12345
 		end
 
-		it 'coerces invalid integers to 0' do
+		it 'coerces invalid integers to nil' do
 			depixxxed = 'abcde'.depixxxit :foobar
 			depixxxed[:foo].should == nil
 		end

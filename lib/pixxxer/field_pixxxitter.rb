@@ -24,12 +24,15 @@ class FieldPixxxitter
 	end
 	def coerce_field(field)
 		field = coerce_integer(field) if @field.type == Integer
-		field = (field.to_f * 10 ** @field.precision).to_i if @field.type == Float
+		field = coerce_float(field) if @field.type == Float
 		field = field == 'true' ? @field.true_value : @field.false_value if @field.type == "Boolean"
 		field.to_s
 	end
 	def coerce_integer(field)
 		field.match(/^?\d+$/) ? field : ''
+	end
+	def coerce_float(field)
+		field.match(/^?\d+$/) ? (field.to_f * 10 ** @field.precision).to_i : ''
 	end
 	def shorten_field(field)
 		if @field.type == Integer || @field.type == Float
