@@ -23,14 +23,14 @@ end
 
 class IntegerFieldDepixxxitter < NumberFieldDepixxxitter
 	def coerce_field(field)
-		return field.to_i if is_numeric(field) 
+		return field.to_i if is_numeric field 
 		nil
 	end
 end
 
 class FloatFieldDepixxxitter < NumberFieldDepixxxitter
 	def coerce_field(field)
-		return adjust_float(field.to_f) if is_numeric(field)
+		return adjust_float(field.to_f) if is_numeric field
 		nil
 	end
 	def adjust_float(field)

@@ -43,15 +43,23 @@ class FieldPixxxitter
 	end
 end
 
-class IntegerFieldPixxxitter < FieldPixxxitter
-	def coerce_field(field)
-		field.match(/^?\d+$/) ? field : ''
+class NumberFieldPixxxitter < FieldPixxxitter
+	def is_numeric(field)
+		field.match /^?\d+$/	
 	end
 end
 
-class FloatFieldPixxxitter < FieldPixxxitter
+class IntegerFieldPixxxitter < NumberFieldPixxxitter
 	def coerce_field(field)
-		(field.match(/^?\d+$/) ? (field.to_f * 10 ** @field.precision).to_i : '').to_s
+		return field if is_numeric field
+		''
+	end
+end
+
+class FloatFieldPixxxitter < NumberFieldPixxxitter
+	def coerce_field(field)
+		return (field.to_f * 10 ** @field.precision).to_i.to_s if is_numeric field
+		''
 	end
 end
 
