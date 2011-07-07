@@ -26,16 +26,19 @@ class PixxxerField
 	end
 	def as_integer
 		@type = Integer
+		@pixxxitter = IntegerFieldPixxxitter.new self
 		@depixxxitter = IntegerFieldDepixxxitter.new self 	
 		self
 	end
 	def as_float
 		@type = Float
+		@pixxxitter = FloatFieldPixxxitter.new self
 		@depixxxitter = FloatFieldDepixxxitter.new self
 		self
 	end
 	def as_boolean
 		@type = "Boolean"
+		@pixxxitter = BooleanFieldPixxxitter.new self
 		@depixxxitter = BooleanFieldDepixxxitter.new self
 		self
 	end
