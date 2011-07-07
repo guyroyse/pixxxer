@@ -35,6 +35,7 @@ class PixxxerField
 	end
 	def as_boolean
 		@type = "Boolean"
+		@depixxxitter = BooleanFieldDepixxxitter.new self
 		self
 	end
 	def with_precision(precision)
