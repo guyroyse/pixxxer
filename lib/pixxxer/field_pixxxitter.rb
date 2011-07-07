@@ -6,6 +6,22 @@ class FieldPixxxitter
 		field = fetch_field hash
 		add_to_record record, field
 	end
+	def fetch_field(hash)
+		field = coerce_field hash[@field.name].to_s
+		field = pad_field field
+		shorten_field field
+	end
+	def coerce_field(field)
+		field.to_s
+	end
+	def pad_field(field)
+		return field.ljust(@field.width, ' ') unless @field.width.nil?
+		field
+	end
+	def shorten_field(field)
+		return field[0, @field.width] unless @field.width.nil?
+		field
+	end
 	def add_to_record(record, field)
 		record = widen_record record
 		inject_field record, field
@@ -17,35 +33,19 @@ class FieldPixxxitter
 		record[@field.position, field.length] = field
 		record
 	end
-	def fetch_field(hash)
-		field = coerce_field hash[@field.name].to_s
-		field = pad_field field
-		shorten_field field
-	end
-	def coerce_field(field)
-		field.to_s
-	end
-	def shorten_field(field)
-		if @field.type == Integer || @field.type == Float
-			return field[field.length - @field.width, @field.width] unless @field.width.nil?
-		else
-			return field[0, @field.width] unless @field.width.nil?
-		end
-		field
-	end
-	def pad_field(field)
-		if @field.type == Integer || @field.type == Float
-			return field.rjust(@field.width, '0') unless @field.width.nil?
-		else
-			return field.ljust(@field.width, ' ') unless @field.width.nil?
-		end
-		field
-	end
 end
 
 class NumberFieldPixxxitter < FieldPixxxitter
 	def is_numeric(field)
 		field.match /^?\d+$/	
+	end
+	def shorten_field(field)
+		return field[field.length - @field.width, @field.width] unless @field.width.nil?
+		field
+	end
+	def pad_field(field)
+		return field.rjust(@field.width, '0') unless @field.width.nil?
+		field
 	end
 end
 
@@ -68,4 +68,3 @@ class BooleanFieldPixxxitter < FieldPixxxitter
 		field == 'true' ? @field.true_value : @field.false_value
 	end
 end
-
