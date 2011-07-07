@@ -11,11 +11,7 @@ class FieldDepixxxitter
 		record[@field.position, @field.width]
 	end
 	def coerce_field(field)
-		return adjust_float(field.to_f) if @field.type == Float
 		field
-	end
-	def adjust_float(field)
-		field / 10 ** @field.precision
 	end
 end
 
@@ -25,6 +21,15 @@ class IntegerFieldDepixxxitter < FieldDepixxxitter
 		nil
 	end
 end
+
+class FloatFieldDepixxxitter < FieldDepixxxitter
+	def coerce_field(field)
+		adjust_float(field.to_f)
+	end
+	def adjust_float(field)
+		field / 10 ** @field.precision
+	end
+end	
 
 class BooleanFieldDepixxxitter < FieldDepixxxitter
 	def coerce_field(field)

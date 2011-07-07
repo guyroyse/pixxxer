@@ -31,6 +31,7 @@ class PixxxerField
 	end
 	def as_float
 		@type = Float
+		@depixxxitter = FloatFieldDepixxxitter.new self
 		self
 	end
 	def as_boolean
