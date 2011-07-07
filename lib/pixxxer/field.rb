@@ -25,6 +25,18 @@ class PixxxerField
     @type = type
     self
   end
+  def as_string
+    as(:string)
+  end
+  def as_integer
+    as(:integer)
+  end
+  def as_float
+    as(:float)
+  end
+  def as_boolean
+    as(:boolean)
+  end
 	def with_precision(precision)
 		@precision = precision
 		self
