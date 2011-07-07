@@ -53,7 +53,7 @@ class FieldPixxxitter
     when :integer, :float
 			field.rjust(@field.width, '0')
 		when :comp3
-			field.rjust(@field.width, "\xf0")
+			field.rjust(@field.width, "\x00")
 		when :ebcdic_char
 			field.rjust(@field.width, "\x40")
 		else
@@ -67,7 +67,7 @@ class FieldPixxxitter
     [s].pack("H*")
 	end
 	def ascii_to_ebcdic(field)
-    @ae_iconv ||= Iconv.new('ASCII', 'EBCDIC-US')
+    @ae_iconv ||= Iconv.new('EBCDIC-US', 'ASCII')
     @ae_iconv.iconv(field)
 	end
 end

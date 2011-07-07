@@ -36,7 +36,7 @@ class FieldDepixxxitter
     u[-1,1] == 'd' ? -n : n
 	end
 	def ebcdic_to_ascii(field)
-    @ea_iconv ||= Iconv.new('EBCDIC-US', 'ASCII')
+    @ea_iconv ||= Iconv.new('ASCII', 'EBCDIC-US')
     @ea_iconv.iconv(field)
 	end
 	def adjust_float(field)
