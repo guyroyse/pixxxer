@@ -26,6 +26,7 @@ class PixxxerField
 	end
 	def as_integer
 		@type = Integer
+		@depixxxitter = IntegerFieldDepixxxitter.new self 	
 		self
 	end
 	def as_float

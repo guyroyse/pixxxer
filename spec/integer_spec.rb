@@ -6,11 +6,19 @@ describe 'Integer' do
 	
 	describe 'String.depixxxit' do
 
-		it 'parses a field and coerces it to a integer' do
+		before(:each) do
 			define_pixxx_template(:foobar)
 				.add_field(:foo).as_integer.at_position(0).with_width(5)
+		end
+			
+		it 'parses a field and coerces it to a integer' do
 			depixxxed = '12345'.depixxxit :foobar
-			depixxxed[:foo].should be_a_kind_of(Integer)
+			depixxxed[:foo].should == 12345
+		end
+
+		it 'coerces invalid integers to 0' do
+			depixxxed = 'abcde'.depixxxit :foobar
+			depixxxed[:foo].should == nil
 		end
 
 	end
@@ -45,6 +53,12 @@ describe 'Integer' do
 			define_pixxx_template(:foobar)
 				.add_field(:integer).as_integer.with_width(5)
 			@sample.pixxxit(:foobar).should == '12345'
+		end
+
+		it 'builds an empty string when value is not a number' do
+			define_pixxx_template(:foobar)
+				.add_field(:noninteger).as_integer
+			{ :noninteger => 'abcde' }.pixxxit(:foobar).should == ''
 		end
 
 	end

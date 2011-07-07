@@ -11,7 +11,6 @@ class FieldDepixxxitter
 		record[@field.position, @field.width]
 	end
 	def coerce_field(field)
-		return field.to_i if @field.type == Integer
 		return coerce_field_to_boolean(field) if @field.type == 'Boolean'
 		return adjust_float(field.to_f) if @field.type == Float
 		field
@@ -24,3 +23,9 @@ class FieldDepixxxitter
 	end
 end
 
+class IntegerFieldDepixxxitter < FieldDepixxxitter
+	def coerce_field(field)
+		return field.to_i if field.match /^?\d+$/ 
+		nil
+	end
+end
