@@ -21,7 +21,7 @@ class FieldDepixxxitter
       adjust_float(field.to_f)
     when :comp3
       comp3_to_i(field)
-    when :ebcdic_char
+    when :ebcdic_string
       ebcdic_to_ascii(field)
     else
       field

@@ -31,7 +31,7 @@ class FieldPixxxitter
 			field == 'true' ? @field.true_value : @field.false_value
 		when :comp3
 			i_to_comp3(field)
-		when :ebcdic_char
+		when :ebcdic_string
 			ascii_to_ebcdic(field)
     else
       field
@@ -54,7 +54,7 @@ class FieldPixxxitter
 			field.rjust(@field.width, '0')
 		when :comp3
 			field.rjust(@field.width, "\x00")
-		when :ebcdic_char
+		when :ebcdic_string
 			field.rjust(@field.width, "\x40")
 		else
 			field.ljust(@field.width, ' ')
