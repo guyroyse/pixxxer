@@ -41,7 +41,7 @@ class FieldPixxxitter
 	def shorten_field(field)
     return field if @field.width.nil?
 		case @field.type
-    when :integer, :float, :comp3, :ebcdic_char
+    when :integer, :float, :comp3
 			field[field.length - @field.width, @field.width]
 		else
 			field[0, @field.width]
