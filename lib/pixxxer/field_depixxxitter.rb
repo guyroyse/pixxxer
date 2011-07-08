@@ -51,7 +51,7 @@ class Comp3FieldDepixxxitter < NumberFieldDepixxxitter
   def comp3_to_i(field)
     u = field.unpack("H*").first
     i = u.chop.to_i
-    i = -i if u[-1,1] == 'd'
+    u[-1,1] == 'd' ? -i : i
   end
 	def adjust_float(i)
 		i.to_f / 10 ** @field.precision
