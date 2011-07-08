@@ -22,9 +22,27 @@ class PixxxerField
 		self
 	end
   def as(type)
+    case type
+    when :integer
+      @pixxxitter = IntegerFieldPixxxitter.new self
+      @depixxxitter = IntegerFieldDepixxxitter.new self 	
+    when :float
+      @pixxxitter = FloatFieldPixxxitter.new self
+      @depixxxitter = FloatFieldDepixxxitter.new self 	
+    when :boolean
+      @pixxxitter = BooleanFieldPixxxitter.new self
+      @depixxxitter = BooleanFieldDepixxxitter.new self 	
+    when :comp3
+      @pixxxitter = Comp3FieldPixxxitter.new self
+      @depixxxitter = Comp3FieldDepixxxitter.new self 	
+    when :ebcdic_string
+      @pixxxitter = EbcdicStringFieldPixxxitter.new self
+      @depixxxitter = EbcdicStringFieldDepixxxitter.new self 	
+    end
     @type = type
     self
   end
+  # backwards compatability
   def as_string
     as(:string)
   end

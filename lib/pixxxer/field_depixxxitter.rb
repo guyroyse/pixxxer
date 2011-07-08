@@ -12,34 +12,61 @@ class FieldDepixxxitter
 		record[@field.position, @field.width]
 	end
 	def coerce_field(field)
-		case @field.type
-    when :integer
-      field.to_i
-    when :boolean
-      coerce_field_to_boolean(field)
-    when :float
-      adjust_float(field.to_f)
-    when :comp3
-      comp3_to_i(field)
-    when :ebcdic_string
-      ebcdic_to_ascii(field)
-    else
-      field
-    end
+		field
 	end
-	def coerce_field_to_boolean(field)
-		field == @field.true_value
+end
+
+class NumberFieldDepixxxitter < FieldDepixxxitter
+	def is_valid?(field)
+    field.match /\A\d+\z/
 	end
-	def comp3_to_i(field)
-    u = field.unpack("H*").first
-    n = u.chop.to_i
-    u[-1,1] == 'd' ? -n : n
+end
+
+class IntegerFieldDepixxxitter < NumberFieldDepixxxitter
+	def coerce_field(field)
+    return nil unless is_valid? field
+		field.to_i
 	end
-	def ebcdic_to_ascii(field)
-    @ea_iconv ||= Iconv.new('ASCII', 'EBCDIC-US')
-    @ea_iconv.iconv(field)
+end
+
+class FloatFieldDepixxxitter < NumberFieldDepixxxitter
+	def coerce_field(field)
+    return nil unless is_valid? field
+		adjust_float(field.to_f)
 	end
 	def adjust_float(field)
 		field / 10 ** @field.precision
+	end
+end	
+
+class Comp3FieldDepixxxitter < NumberFieldDepixxxitter
+  def is_valid?(field)
+    field.match /\A[\x00-\x99\x9C\x9D\x9F]+\z/
+  end
+  def coerce_field(field)
+    return nil unless is_valid? field
+    i = comp3_to_i(field)
+    @field.precision == 0 ? i : adjust_float(i)
+  end
+  def comp3_to_i(field)
+    u = field.unpack("H*").first
+    i = u.chop.to_i
+    i = -i if u[-1,1] == 'd'
+  end
+	def adjust_float(i)
+		i.to_f / 10 ** @field.precision
+	end
+end
+
+class BooleanFieldDepixxxitter < FieldDepixxxitter
+	def coerce_field(field)
+		field == @field.true_value
+	end
+end
+
+class EbcdicStringFieldDepixxxitter < FieldDepixxxitter
+	def coerce_field(field)
+    @ea_iconv ||= Iconv.new('ASCII', 'EBCDIC-US')
+    @ea_iconv.iconv(field)
 	end
 end

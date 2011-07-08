@@ -2,17 +2,15 @@ require 'pixxxer'
 
 describe 'Float' do
 		
-	# add tests for invalid values
-	
 	describe 'String.depixxxit' do
 		
 		before(:each) do
+			define_pixxx_template(:foobar) \
+				.add_field(:foo).as(:float).at_position(0).with_width(5)
 			@sample = '12345'
 		end
 
 		it 'parses a field and coerces it to a float' do
-			define_pixxx_template(:foobar) \
-				.add_field(:foo).as(:float).at_position(0).with_width(5)
 			depixxxed = @sample.depixxxit :foobar
 			depixxxed[:foo].should be_a_kind_of(Float)
 		end
@@ -23,6 +21,11 @@ describe 'Float' do
 			depixxxed = @sample.depixxxit :foobar
 			depixxxed[:foo].should be_a_kind_of(Float)
 			depixxxed[:foo].should == 123.45
+		end
+
+		it 'coerces invalid floats to nil' do
+			depixxxed = '123ab'.depixxxit :foobar
+			depixxxed[:foo].should == nil
 		end
 
 	end
@@ -66,12 +69,15 @@ describe 'Float' do
 		end
 
 		it 'builds a string coerced from a float and defaults the precision to zero' do
-			define_pixxx_template(:foobar) \
-				.add_field(:float).as(:float).with_width(5)
+			define_pixxx_template(:foobar).add_field(:float).as(:float).with_width(5)
 			@sample.pixxxit(:foobar).should == '00123'
+		end
+
+		it 'builds an empty string when value is not a number' do
+			define_pixxx_template(:foobar).add_field(:nonfloat).as(:float)
+			{ :nonfloat => 'abcde' }.pixxxit(:foobar).should == ''
 		end
 
 	end
 
 end
-

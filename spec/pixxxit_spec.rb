@@ -21,4 +21,3 @@ describe 'Hash.pixxxit' do
 	end
 
 end
-

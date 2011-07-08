@@ -9,7 +9,8 @@ describe 'String' do
 		end
 		
 		it 'parses a field and coerces it to a string' do
-			define_pixxx_template(:foobar).add_field(:foo).as(:string).at_position(5).with_width(5)
+			define_pixxx_template(:foobar) \
+        .add_field(:foo).as(:string).at_position(5).with_width(5)
 			depixxxed = @sample.depixxxit :foobar
 			depixxxed[:foo].should be_a_kind_of(String)
 		end
@@ -62,4 +63,3 @@ describe 'String' do
 	end
 
 end
-
