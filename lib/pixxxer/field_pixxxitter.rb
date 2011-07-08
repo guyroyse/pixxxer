@@ -98,8 +98,8 @@ end
 
 class EbcdicStringFieldPixxxitter < FieldPixxxitter
 	def coerce_field(field)
-    @ae_iconv ||= Iconv.new('EBCDIC-US', 'ASCII')
-    @ae_iconv.iconv(field.to_s)
+    @@ea_iconv ||= Iconv.new('EBCDIC-US', 'ASCII')
+    @@ea_iconv.iconv(field.to_s)
 	end
 	def pad_field(field)
     return field if @field.width.nil?

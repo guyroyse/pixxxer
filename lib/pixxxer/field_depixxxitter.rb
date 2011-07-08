@@ -66,7 +66,7 @@ end
 
 class EbcdicStringFieldDepixxxitter < FieldDepixxxitter
 	def coerce_field(field)
-    @ea_iconv ||= Iconv.new('ASCII', 'EBCDIC-US')
-    @ea_iconv.iconv(field)
+    @@ae_iconv ||= Iconv.new('ASCII', 'EBCDIC-US')
+    @@ae_iconv.iconv(field)
 	end
 end
