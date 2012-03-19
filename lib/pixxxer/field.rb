@@ -21,21 +21,40 @@ class PixxxerField
 		@position = position
 		self
 	end
-	def as_string
-		self
-	end
-	def as_integer
-		@type = Integer
-		self
-	end
-	def as_float
-		@type = Float
-		self
-	end
-	def as_boolean
-		@type = "Boolean"
-		self
-	end
+  def as(type)
+    case type
+    when :integer
+      @pixxxitter = IntegerFieldPixxxitter.new self
+      @depixxxitter = IntegerFieldDepixxxitter.new self 	
+    when :float
+      @pixxxitter = FloatFieldPixxxitter.new self
+      @depixxxitter = FloatFieldDepixxxitter.new self 	
+    when :boolean
+      @pixxxitter = BooleanFieldPixxxitter.new self
+      @depixxxitter = BooleanFieldDepixxxitter.new self 	
+    when :comp3
+      @pixxxitter = Comp3FieldPixxxitter.new self
+      @depixxxitter = Comp3FieldDepixxxitter.new self 	
+    when :ebcdic_string
+      @pixxxitter = EbcdicStringFieldPixxxitter.new self
+      @depixxxitter = EbcdicStringFieldDepixxxitter.new self 	
+    end
+    @type = type
+    self
+  end
+  # backwards compatability
+  def as_string
+    as(:string)
+  end
+  def as_integer
+    as(:integer)
+  end
+  def as_float
+    as(:float)
+  end
+  def as_boolean
+    as(:boolean)
+  end
 	def with_precision(precision)
 		@precision = precision
 		self
