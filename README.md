@@ -47,6 +47,7 @@ Data Types
     integer
     string
     ebcdic_string (EBCDIC 4-bit characters)
+        dependent on iconv. not currently supported by the version on OS X
         "PIC X(03)"  =>  .as(:abcdic_string).with_width(3)
     comp3 (COBOL signed comp-3 packed field)
         with_width specifies the number of bytes:
