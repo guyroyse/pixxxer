@@ -16,12 +16,18 @@ class FieldPixxxitter
 		field.to_s
 	end
 	def pad_field(field)
-    return field if @field.width.nil?
-    field.ljust(@field.width, ' ')
+    if @field.width
+      field.ljust(@field.width, ' ')
+    else
+      field
+    end
 	end
 	def shorten_field(field)
-    return field if @field.width.nil?
-    field[0, @field.width]
+    if @field.width
+      field[0, @field.width]
+    else
+      field
+    end
 	end
 	def add_to_record(record, field)
 		record = widen_record record
@@ -41,12 +47,18 @@ class NumberFieldPixxxitter < FieldPixxxitter
     true if Float(field) rescue false
   end
 	def shorten_field(field)
-		return field[field.length - @field.width, @field.width] unless @field.width.nil?
-		field
+		if @field.width
+		  field[field.length - @field.width, @field.width]
+    else
+		  field
+    end
 	end
 	def pad_field(field)
-    return field if @field.width.nil?
-		field.rjust(@field.width, '0')
+    if @field.width
+		  field.rjust(@field.width, '0')
+    else
+      field
+    end
 	end
 end
 
@@ -55,23 +67,28 @@ class IntegerFieldPixxxitter < NumberFieldPixxxitter
     true if Integer(field) rescue false
   end
 	def coerce_field(field)
-		return '' unless is_valid? field
-		field
+    is_valid?(field) ? field : ''
 	end
 end
 
 class FloatFieldPixxxitter < NumberFieldPixxxitter
 	def coerce_field(field)
-    return '' unless is_valid? field
-		(field.to_f * 10 ** @field.precision).to_i.to_s
+    if is_valid?(field)
+      (field.to_f * 10 ** @field.precision).to_i.to_s
+    else
+      ''
+    end
 	end
 end
 
 class Comp3FieldPixxxitter < NumberFieldPixxxitter
   def coerce_field(field)
-    return '' unless is_valid? field
-    i = adjust_float(field)
-    i_to_comp3(i)
+    if is_valid?(field)
+      i = adjust_float(field)
+      i_to_comp3(i)
+    else
+      ''
+    end
 	end
   def i_to_comp3(i)
     s = i.abs.to_s + (i < 0 ? "d" : "c")
@@ -82,8 +99,11 @@ class Comp3FieldPixxxitter < NumberFieldPixxxitter
 		(field.to_f * 10 ** @field.precision).to_i
   end
 	def pad_field(field)
-    return field if @field.width.nil?
-		field.rjust(@field.width, "\x00")
+    if @field.width
+		  field.rjust(@field.width, "\x00")
+    else
+      field
+    end
 	end
 	def widen_record(record)
 		record.ljust(@field.position, "\x00")
@@ -102,8 +122,11 @@ class EbcdicStringFieldPixxxitter < FieldPixxxitter
     @@ea_iconv.iconv(field.to_s)
 	end
 	def pad_field(field)
-    return field if @field.width.nil?
-    field.ljust(@field.width, "\x40")
+    if @field.width
+      field.ljust(@field.width, "\x40")
+    else
+      field
+    end
 	end
 	def widen_record(record)
 		record.ljust(@field.position, "\x40")
