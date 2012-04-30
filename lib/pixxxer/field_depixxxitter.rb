@@ -70,5 +70,7 @@ end
 class EbcdicStringFieldDepixxxitter < FieldDepixxxitter
 	def coerce_field(field)
     Iconv.iconv('ASCII', 'EBCDIC-US', field)
+  rescue Iconv::InvalidEncoding => e
+    raise e, 'EBCDIC-US encoding unavailable on your iconv version: %s' % e
 	end
 end

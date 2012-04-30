@@ -1,4 +1,5 @@
 require 'iconv'
+
 class FieldPixxxitter
 	def initialize(field)
 		@field = field
@@ -44,7 +45,7 @@ end
 
 class NumberFieldPixxxitter < FieldPixxxitter
   def is_valid?(field)
-    true if Float(field) rescue false
+    !!Float(field) rescue false
   end
 	def shorten_field(field)
 		if @field.width
@@ -64,7 +65,7 @@ end
 
 class IntegerFieldPixxxitter < NumberFieldPixxxitter
   def is_valid?(field)
-    true if Integer(field) rescue false
+    !!Integer(field) rescue false
   end
 	def coerce_field(field)
     is_valid?(field) ? field : ''
@@ -118,8 +119,9 @@ end
 
 class EbcdicStringFieldPixxxitter < FieldPixxxitter
 	def coerce_field(field)
-    @@ea_iconv ||= Iconv.new('EBCDIC-US', 'ASCII')
-    @@ea_iconv.iconv(field.to_s)
+    Iconv.iconv('EBCDIC-US', 'ASCII', field.to_s)
+  rescue Iconv::InvalidEncoding => e
+    raise e, 'EBCDIC-US encoding unavailable on your iconv version: %s' % e
 	end
 	def pad_field(field)
     if @field.width
