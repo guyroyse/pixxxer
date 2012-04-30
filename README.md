@@ -58,4 +58,4 @@ Most things default to zero. Fields default to strings. `at_position` is zero-ba
 
 Copyright
 ---------
-Copyright(c) 2011 Guy Royse & Alyssa Diaz. See LICENSE for further details.
+Copyright(c) 2012 Guy Royse & Alyssa Diaz. See LICENSE for further details.
