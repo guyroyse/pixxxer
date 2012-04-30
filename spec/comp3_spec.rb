@@ -25,7 +25,7 @@ describe 'Comp3' do
 		end
 
 		it 'coerces invalid comp3s to nil' do
-			depixxxed = '123ab'.depixxxit :foobar
+			depixxxed = "123\xa0".depixxxit :foobar
 			depixxxed[:foo].should == nil
 		end
 
