@@ -21,14 +21,14 @@ class PixxxerTemplate
 	def depixxxit(string)
 		record = {}
 		@fields.each do |field_name, field|
-			record[field_name] = field.depixxxit string
+			record[field_name] = field.depixxxit(string)
 		end
 		record
 	end
 	def pixxxit(hash)
 		string = ''
 		@fields.each do |field_name, field|
-			string = field.pixxxit hash, string
+			string = field.pixxxit(hash, string)
 		end
 		string
 	end

@@ -76,4 +76,3 @@ class PixxxerField
 		@depixxxitter.depixxxit record
 	end
 end
-

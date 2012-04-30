@@ -8,14 +8,20 @@ end
 
 class String
 	def depixxxit(template_name)
-    raise "pixxxer template \"#{template_name}\" not defined" unless $pixxxer_templates.has_key? template_name
-		$pixxxer_templates[template_name].depixxxit self
+    if $pixxxer_templates.has_key?(template_name)
+		  $pixxxer_templates[template_name].depixxxit(self)
+    else
+      raise 'pixxxer template not defined: %s' % template_name
+    end
 	end
 end
 
 class Hash
 	def pixxxit(template_name)
-    raise "pixxxer template \"#{template_name}\" not defined" unless $pixxxer_templates.has_key? template_name
-		$pixxxer_templates[template_name].pixxxit self
+    if $pixxxer_templates.has_key?(template_name)
+		  $pixxxer_templates[template_name].pixxxit(self)
+    else
+      raise 'pixxxer template not defined: %s' % template_name
+    end
 	end
 end
