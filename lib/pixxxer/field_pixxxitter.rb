@@ -119,7 +119,7 @@ end
 
 class EbcdicStringFieldPixxxitter < FieldPixxxitter
 	def coerce_field(field)
-    Iconv.iconv('EBCDIC-US', 'ASCII', field.to_s)
+    Iconv.open('EBCDIC-US', 'ASCII') {|c| c.iconv(field.to_s) }
   rescue Iconv::InvalidEncoding => e
     raise e, 'EBCDIC-US encoding unavailable on your iconv version: %s' % e
 	end
